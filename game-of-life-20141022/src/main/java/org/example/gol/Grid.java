@@ -1,5 +1,7 @@
 package org.example.gol;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
 public class Grid {
@@ -14,5 +16,9 @@ public class Grid {
     public Cell getAt(int x, int y) {
         int index = y * width + x;
         return cells.get(index);
+    }
+
+    public List<Habitat> habitats() {
+        return Lists.newArrayList(new Habitat(null, null));
     }
 }
