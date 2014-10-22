@@ -16,6 +16,6 @@ public class Habitat {
     }
 
     public int aliveNeighbourCount() {
-        return Iterables.size(neighbours);
+        return Iterables.size(Iterables.filter(neighbours, Cell::alive));
     }
 }
