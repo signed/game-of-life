@@ -19,6 +19,6 @@ public class Grid {
     }
 
     public List<Habitat> habitats() {
-        return Lists.newArrayList(new Habitat(null, null));
+        return Lists.newArrayList(new Habitat(cells.get(0), null));
     }
 }
