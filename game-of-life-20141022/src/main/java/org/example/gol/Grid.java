@@ -19,6 +19,20 @@ public class Grid {
     }
 
     public List<Habitat> habitats() {
-        return Lists.newArrayList(new Habitat(cells.get(0), null));
+        List<Habitat> habitats = Lists.newArrayList();
+        for (Cell cell : cells) {
+
+            List<Cell> neighbours = Lists.newArrayList();
+            if( cells.size() == 2){
+                if(cell.alive()){
+                    neighbours.add(Cell.o);
+                }else{
+                    neighbours.add(Cell.x);
+
+                }
+            }
+            habitats.add(new Habitat(cell, neighbours));
+        }
+        return habitats;
     }
 }
