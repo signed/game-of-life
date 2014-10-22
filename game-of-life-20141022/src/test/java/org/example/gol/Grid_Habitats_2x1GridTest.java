@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
 public class Grid_Habitats_2x1GridTest {
-    private final GridBuilder grid = new GridBuilder().width(1);
+    private final GridBuilder grid = new GridBuilder().width(2);
 
     @Test
     public void returnOneHabitat() throws Exception {
