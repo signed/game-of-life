@@ -44,7 +44,7 @@ public class Grid {
             int below_x =  x;
             int below_y = y+1;
 
-            if(below_y < cells.size()/width){
+            if(below_y < height()){
                 Cell candidate = getAt(below_x, below_y);
                 neighbours.add(candidate);
             }
@@ -52,6 +52,10 @@ public class Grid {
             habitats.add(new Habitat(cell, neighbours));
         }
         return habitats;
+    }
+
+    private int height() {
+        return cells.size()/width;
     }
 
 }
