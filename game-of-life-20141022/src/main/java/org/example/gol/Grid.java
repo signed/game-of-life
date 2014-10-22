@@ -49,6 +49,13 @@ public class Grid {
                 neighbours.add(candidate);
             }
 
+            int above_x = x;
+            int above_y = y - 1;
+
+            if( above_y >= 0){
+                neighbours.add(getAt(above_x, above_y));
+            }
+
             habitats.add(new Habitat(cell, neighbours));
         }
         return habitats;

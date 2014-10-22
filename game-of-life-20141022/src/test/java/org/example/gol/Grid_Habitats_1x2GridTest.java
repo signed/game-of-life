@@ -1,6 +1,5 @@
 package org.example.gol;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -31,11 +30,11 @@ public class Grid_Habitats_1x2GridTest {
     }
 
     @Test
-    @Ignore
-    public void secondHabitatHasZeroAliveNeighbour() throws Exception {
-        grid.add(o, x);
+    public void secondHabitatHasOneAliveNeighbour() throws Exception {
+        grid.add(x);
+        grid.add(o);
 
-        assertThat(habitats().get(1).aliveNeighbourCount(), is(0));
+        assertThat(habitats().get(1).aliveNeighbourCount(), is(1));
     }
 
     private List<Habitat> habitats() {
