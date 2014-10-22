@@ -12,7 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class Grid_CellAtTest {
-    List<Cell> cells = Lists.newArrayList();
+    private final List<Cell> cells = Lists.newArrayList();
     private int width = 1;
 
     @Test
