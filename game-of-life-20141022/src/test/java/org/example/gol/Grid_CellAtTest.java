@@ -19,4 +19,15 @@ public class Grid_CellAtTest {
         assertThat(grid.getAt(0, 0).alive(), is(true));
     }
 
+    @Test
+    public void placeTheTheSecondCellAt_0_1() throws Exception {
+        List<Cell> cells = Lists.newArrayList();
+        cells.add(Cell.o);
+        cells.add(Cell.x);
+
+        Grid grid = new Grid(cells);
+        assertThat(grid.getAt(0, 1).alive(), is(true));
+    }
+
+
 }

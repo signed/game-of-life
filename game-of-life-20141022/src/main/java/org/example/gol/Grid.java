@@ -10,6 +10,6 @@ public class Grid {
     }
 
     public Cell getAt(int x, int y) {
-        return cells.get(0);
+        return cells.get(y);
     }
 }
