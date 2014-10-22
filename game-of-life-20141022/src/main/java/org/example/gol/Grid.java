@@ -20,14 +20,18 @@ public class Grid {
 
     public List<Habitat> habitats() {
         List<Habitat> habitats = Lists.newArrayList();
+        int y = 0;
         for(int x=0; x < cells.size(); ++x){
             Cell cell = cells.get(x);
             List<Cell> neighbours = Lists.newArrayList();
             if( cells.size() == 2){
-                if(cell.alive()){
-                    neighbours.add(Cell.o);
+                boolean istSecondCell = x == 1;
+                if(istSecondCell){
+                    Cell daCell = getAt(x - 1, y);
+                    neighbours.add(daCell);
                 }else{
-                    neighbours.add(Cell.x);
+                    Cell canndiate = getAt(x + 1, y);
+                    neighbours.add(canndiate);
                 }
             }
             habitats.add(new Habitat(cell, neighbours));
