@@ -20,15 +20,14 @@ public class Grid {
 
     public List<Habitat> habitats() {
         List<Habitat> habitats = Lists.newArrayList();
-        for (Cell cell : cells) {
-
+        for(int x=0; x < cells.size(); ++x){
+            Cell cell = cells.get(x);
             List<Cell> neighbours = Lists.newArrayList();
             if( cells.size() == 2){
                 if(cell.alive()){
                     neighbours.add(Cell.o);
                 }else{
                     neighbours.add(Cell.x);
-
                 }
             }
             habitats.add(new Habitat(cell, neighbours));
