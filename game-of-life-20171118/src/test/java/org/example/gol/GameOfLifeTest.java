@@ -2,9 +2,12 @@ package org.example.gol;
 
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.gol.Coordinates.xy;
 
@@ -66,15 +69,6 @@ public class GameOfLifeTest {
         assertThat(xy(0, 0).adjacentCoordinates()).contains(xy(-1, 0));
     }
 
-    @Test
-    public void cellWithTwoNeighboursStaysAlive() throws Exception {
-        cellAliveAt(xy(-1, -1));
-        cellAliveAt(xy(0, 0));
-        cellAliveAt(xy(1, 1));
-
-        assertThat(world().evolve().isAliveAt(xy(0, 0))).isTrue();
-    }
-
     private final LinkedHashSet<Coordinates> aliveCells = new LinkedHashSet<>();
 
     @Test
@@ -92,6 +86,15 @@ public class GameOfLifeTest {
 
         assertThat(world().isAliveAt(xy(0, 0))).isTrue();
         assertThat(world().isAliveAt(xy(1, 1))).isFalse();
+    }
+
+    @Test
+    public void cellWithTwoNeighboursStaysAlive() throws Exception {
+        cellAliveAt(xy(-1, -1));
+        cellAliveAt(xy(0, 0));
+        cellAliveAt(xy(1, 1));
+
+        assertThat(world().evolve().isAliveAt(xy(0, 0))).isTrue();
     }
 
     private void cellAliveAt(Coordinates coordinates) {
@@ -114,11 +117,17 @@ public class GameOfLifeTest {
         }
 
         World evolve() {
-            Set<Coordinates> set = new LinkedHashSet<>();
-            if (aliveCells.size() == 3) {
-                set.add(xy(0, 0));
-            }
-            return new World(set);
+            Set<Coordinates> newWorldPopulation = aliveCells.stream()
+                    .map(Coordinates::adjacentCoordinates)
+                    .flatMap(Collection::stream)
+                    .filter(this::hostsLifeInNewWorld)
+                    .collect(toSet());
+            return new World(newWorldPopulation);
+        }
+
+        private boolean hostsLifeInNewWorld(Coordinates c) {
+            long aliveNeighbours = aliveNeighbourCount(c);
+            return aliveNeighbours == 2;
         }
 
         long aliveNeighbourCount(Coordinates center) {
