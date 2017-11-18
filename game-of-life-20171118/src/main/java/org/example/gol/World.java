@@ -7,7 +7,22 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 
 class World {
-    private Set<Coordinates> aliveCells;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        World world = (World) o;
+
+        return aliveCells.equals(world.aliveCells);
+    }
+
+    @Override
+    public int hashCode() {
+        return aliveCells.hashCode();
+    }
+
+    private final Set<Coordinates> aliveCells;
 
     World(Set<Coordinates> aliveCells) {
         this.aliveCells = aliveCells;
