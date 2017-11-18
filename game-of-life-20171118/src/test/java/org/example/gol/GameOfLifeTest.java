@@ -27,7 +27,7 @@ public class GameOfLifeTest {
     public void cellWithoutNeighboursDies() throws Exception {
         cellAliveAt(xy(0, 0));
 
-        assertThat(world().evolve().isAliveAt(xy(0, 0))).isFalse();
+        assertThat(evolvedWorld().isAliveAt(xy(0, 0))).isFalse();
     }
 
     @Test
@@ -95,7 +95,7 @@ public class GameOfLifeTest {
         cellAliveAt(xy(0, 0));
         cellAliveAt(xy(1, 1));
 
-        assertThat(world().evolve().isAliveAt(xy(0, 0))).isTrue();
+        assertThat(evolvedWorld().isAliveAt(xy(0, 0))).isTrue();
     }
 
     @Test
@@ -105,12 +105,35 @@ public class GameOfLifeTest {
         cellAliveAt(xy(0, 0));
         cellAliveAt(xy(1, 1));
 
-        assertThat(world().evolve().isAliveAt(xy(0, 0))).isTrue();
+        assertThat(evolvedWorld().isAliveAt(xy(0, 0))).isTrue();
     }
 
+    @Test
+    public void aPreviouslyDeadCellBecomesAliveIfThereAreExactlyThreeNeighbours() throws Exception {
+        cellAliveAt(xy(-1, -1));
+        cellAliveAt(xy(0, -1));
+        cellAliveAt(xy(1, -1));
+
+        assertThat(evolvedWorld().isAliveAt(xy(0, 0))).isTrue();
+    }
+
+    @Test
+    public void anAliveCellWithMoreThanThreeNeighboursDies() throws Exception {
+        cellAliveAt(xy(-1, -1));
+        cellAliveAt(xy(0, -1));
+        cellAliveAt(xy(1, -1));
+        cellAliveAt(xy(0, 0));
+        cellAliveAt(xy(-1, 0));
+
+        assertThat(evolvedWorld().isAliveAt(xy(0, 0))).isFalse();
+    }
 
     private void cellAliveAt(Coordinates coordinates) {
         aliveCells.add(coordinates);
+    }
+
+    private World evolvedWorld() {
+        return world().evolve();
     }
 
     private World world() {
@@ -129,10 +152,9 @@ public class GameOfLifeTest {
         }
 
         World evolve() {
-            Stream<Coordinates> coordinatesStream = aliveCells.stream()
+            Set<Coordinates> allCoordinatesAdjacentToALivingCell = aliveCells.stream()
                     .map(Coordinates::adjacentCoordinates)
-                    .flatMap(Collection::stream);
-            Set<Coordinates> allCoordinatesAdjacentToALivingCell = coordinatesStream.collect(Collectors.toSet());
+                    .flatMap(Collection::stream).collect(Collectors.toSet());
 
             Set<Coordinates> newWorldPopulation = allCoordinatesAdjacentToALivingCell.stream()
                     .filter(this::hostsLifeInNewWorld)
@@ -142,7 +164,10 @@ public class GameOfLifeTest {
 
         private boolean hostsLifeInNewWorld(Coordinates c) {
             long aliveNeighbours = aliveNeighbourCount(c);
-            return aliveNeighbours == 2 || aliveNeighbours == 3;
+            if (isAliveAt(c)) {
+                return aliveNeighbours == 2 || aliveNeighbours == 3;
+            }
+            return aliveNeighbours == 3;
         }
 
         long aliveNeighbourCount(Coordinates center) {
