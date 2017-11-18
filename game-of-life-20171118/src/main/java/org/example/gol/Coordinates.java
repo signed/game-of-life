@@ -5,8 +5,8 @@ class Coordinates {
         return new Coordinates(x, y);
     }
 
-    private final int x;
-    private final int y;
+    public final int x;
+    public final int y;
 
     private Coordinates(int x, int y) {
         this.x = x;

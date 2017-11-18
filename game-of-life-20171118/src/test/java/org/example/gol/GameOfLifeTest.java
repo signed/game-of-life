@@ -2,6 +2,7 @@ package org.example.gol;
 
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -33,7 +34,64 @@ public class GameOfLifeTest {
     public void cellWithoutNeighboursDies() throws Exception {
         cellAliveAt(xy(0, 0));
 
-        assertThat(world().evolve().isAliveAt(xy(0,0))).isFalse();
+        assertThat(world().evolve().isAliveAt(xy(0, 0))).isFalse();
+    }
+
+    @Test
+    public void topLeftIsAdjacent() throws Exception {
+        assertThat(coordinatesAdjacentTo(xy(0, 0))).contains(xy(-1, -1));
+    }
+
+    @Test
+    public void topIsAdjacent() throws Exception {
+        assertThat(coordinatesAdjacentTo(xy(0, 0))).contains(xy(0, -1));
+    }
+
+    @Test
+    public void topRightIsAdjacent() throws Exception {
+        assertThat(coordinatesAdjacentTo(xy(0, 0))).contains(xy(1, -1));
+    }
+
+    @Test
+    public void rightIsAdjacent() throws Exception {
+        assertThat(coordinatesAdjacentTo(xy(0, 0))).contains(xy(1, 0));
+    }
+
+    @Test
+    public void bottomRightIsAdjacent() throws Exception {
+        assertThat(coordinatesAdjacentTo(xy(0, 0))).contains(xy(1, 1));
+    }
+
+    @Test
+    public void bottomIsAdjacent() throws Exception {
+        assertThat(coordinatesAdjacentTo(xy(0, 0))).contains(xy(0, 1));
+    }
+
+    @Test
+    public void bottomLeftIsAdjacent() throws Exception {
+        assertThat(coordinatesAdjacentTo(xy(0, 0))).contains(xy(-1, 1));
+    }
+
+    @Test
+    public void leftIsAdjacent() throws Exception {
+        assertThat(coordinatesAdjacentTo(xy(0, 0))).contains(xy(-1, 0));
+    }
+
+    private Set<Coordinates> coordinatesAdjacentTo(Coordinates center) {
+        HashSet<Coordinates> adjacentCoordinates = new HashSet<>();
+        adjacentCoordinates.add(xy(center.x - 1, center.y - 1));
+        adjacentCoordinates.add(xy(center.x, center.y - 1));
+        adjacentCoordinates.add(xy(center.x + 1, center.y - 1));
+
+        adjacentCoordinates.add(xy(center.x + 1, center.y));
+
+        adjacentCoordinates.add(xy(center.x + 1, center.y + 1));
+        adjacentCoordinates.add(xy(center.x, center.y + 1));
+        adjacentCoordinates.add(xy(center.x - 1, center.y + 1));
+
+        adjacentCoordinates.add(xy(center.x - 1, center.y));
+
+        return adjacentCoordinates;
     }
 
     @Test
@@ -42,7 +100,7 @@ public class GameOfLifeTest {
         cellAliveAt(xy(0, 0));
         cellAliveAt(xy(1, 1));
 
-        assertThat(world().evolve().isAliveAt(xy(0,0))).isTrue();
+        assertThat(world().evolve().isAliveAt(xy(0, 0))).isTrue();
     }
 
     private boolean cellAliveAt(Coordinates coordinates) {
