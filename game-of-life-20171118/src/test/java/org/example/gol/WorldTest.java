@@ -8,7 +8,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.gol.Coordinates.xy;
 
-public class GameOfLifeTest {
+public class WorldTest {
 
     @Test
     public void twoCoordinatesAreEqualIfThereXandYvaluesMatch() throws Exception {
