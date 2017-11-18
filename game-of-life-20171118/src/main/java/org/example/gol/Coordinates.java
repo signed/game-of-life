@@ -1,16 +1,36 @@
 package org.example.gol;
 
+import java.util.HashSet;
+import java.util.Set;
+
 class Coordinates {
     public static Coordinates xy(int x, int y) {
         return new Coordinates(x, y);
     }
 
-    public final int x;
-    public final int y;
+    final int x;
+    final int y;
 
-    private Coordinates(int x, int y) {
+    Coordinates(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    Set<Coordinates> adjacentCoordinates() {
+        HashSet<Coordinates> adjacentCoordinates = new HashSet<>();
+        adjacentCoordinates.add(xy(x - 1, y - 1));
+        adjacentCoordinates.add(xy(x, y - 1));
+        adjacentCoordinates.add(xy(x + 1, y - 1));
+
+        adjacentCoordinates.add(xy(x + 1, y));
+
+        adjacentCoordinates.add(xy(x + 1, y + 1));
+        adjacentCoordinates.add(xy(x, y + 1));
+        adjacentCoordinates.add(xy(x - 1, y + 1));
+
+        adjacentCoordinates.add(xy(x - 1, y));
+
+        return adjacentCoordinates;
     }
 
     @Override
