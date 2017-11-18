@@ -78,6 +78,15 @@ public class GameOfLifeTest {
     private final LinkedHashSet<Coordinates> aliveCells = new LinkedHashSet<>();
 
     @Test
+    public void theWorldProvidesTheNumberOfAliveAdjacentCells() throws Exception {
+        cellAliveAt(xy(0, 0));
+        cellAliveAt(xy(1, 1));
+        cellAliveAt(xy(1, 0));
+
+        assertThat(world().aliveNeighbourCount(xy(0, 0))).isEqualTo(2);
+    }
+
+    @Test
     public void theWorldProvidesInformationIfACellAtGivenCoordinatesIsAlive() throws Exception {
         cellAliveAt(xy(0, 0));
 
@@ -110,6 +119,12 @@ public class GameOfLifeTest {
                 set.add(xy(0, 0));
             }
             return new World(set);
+        }
+
+        public long aliveNeighbourCount(Coordinates center) {
+            return center.adjacentCoordinates().stream()
+                    .filter(this::isAliveAt)
+                    .count();
         }
     }
 }
