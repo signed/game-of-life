@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -97,6 +98,17 @@ public class GameOfLifeTest {
         assertThat(world().evolve().isAliveAt(xy(0, 0))).isTrue();
     }
 
+    @Test
+    public void cellWithThreeNeighboursStaysAlive() throws Exception {
+        cellAliveAt(xy(-1, -1));
+        cellAliveAt(xy(1, -1));
+        cellAliveAt(xy(0, 0));
+        cellAliveAt(xy(1, 1));
+
+        assertThat(world().evolve().isAliveAt(xy(0, 0))).isTrue();
+    }
+
+
     private void cellAliveAt(Coordinates coordinates) {
         aliveCells.add(coordinates);
     }
@@ -117,9 +129,12 @@ public class GameOfLifeTest {
         }
 
         World evolve() {
-            Set<Coordinates> newWorldPopulation = aliveCells.stream()
+            Stream<Coordinates> coordinatesStream = aliveCells.stream()
                     .map(Coordinates::adjacentCoordinates)
-                    .flatMap(Collection::stream)
+                    .flatMap(Collection::stream);
+            Set<Coordinates> allCoordinatesAdjacentToALivingCell = coordinatesStream.collect(Collectors.toSet());
+
+            Set<Coordinates> newWorldPopulation = allCoordinatesAdjacentToALivingCell.stream()
                     .filter(this::hostsLifeInNewWorld)
                     .collect(toSet());
             return new World(newWorldPopulation);
@@ -127,7 +142,7 @@ public class GameOfLifeTest {
 
         private boolean hostsLifeInNewWorld(Coordinates c) {
             long aliveNeighbours = aliveNeighbourCount(c);
-            return aliveNeighbours == 2;
+            return aliveNeighbours == 2 || aliveNeighbours == 3;
         }
 
         long aliveNeighbourCount(Coordinates center) {
