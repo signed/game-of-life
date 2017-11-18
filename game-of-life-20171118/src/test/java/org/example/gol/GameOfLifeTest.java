@@ -94,8 +94,8 @@ public class GameOfLifeTest {
         assertThat(world().isAliveAt(xy(1, 1))).isFalse();
     }
 
-    private boolean cellAliveAt(Coordinates coordinates) {
-        return aliveCells.add(coordinates);
+    private void cellAliveAt(Coordinates coordinates) {
+        aliveCells.add(coordinates);
     }
 
     private World world() {
@@ -105,15 +105,15 @@ public class GameOfLifeTest {
     private class World {
         private Set<Coordinates> aliveCells;
 
-        public World(Set<Coordinates> aliveCells) {
+        World(Set<Coordinates> aliveCells) {
             this.aliveCells = aliveCells;
         }
 
-        public boolean isAliveAt(Coordinates coordinates) {
+        boolean isAliveAt(Coordinates coordinates) {
             return aliveCells.contains(coordinates);
         }
 
-        public World evolve() {
+        World evolve() {
             Set<Coordinates> set = new LinkedHashSet<>();
             if (aliveCells.size() == 3) {
                 set.add(xy(0, 0));
@@ -121,7 +121,7 @@ public class GameOfLifeTest {
             return new World(set);
         }
 
-        public long aliveNeighbourCount(Coordinates center) {
+        long aliveNeighbourCount(Coordinates center) {
             return center.adjacentCoordinates().stream()
                     .filter(this::isAliveAt)
                     .count();
