@@ -20,4 +20,18 @@ public class GameOfLifeTest {
         assertThat(initialWorld.evolve().evolve()).isEqualTo(initialWorld);
     }
 
+    @Test
+    public void biggerExample() throws Exception {
+        WorldBuilder world = new WorldBuilder();
+        world.row(o, x, o, o, o, x, o);
+        world.row(o, x, o, o, o, x, o);
+        world.row(o, x, o, o, o, x, o);
+
+        WorldBuilder expectedWorld = new WorldBuilder();
+        expectedWorld.row(o, o, o, o, o, o, o);
+        expectedWorld.row(x, x, x, o, x, x, x);
+        expectedWorld.row(o, o, o, o, o, o, o);
+
+        assertThat(world.build().evolve()).isEqualTo(expectedWorld.build());
+    }
 }
