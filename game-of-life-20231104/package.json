@@ -1,0 +1,29 @@
+{
+  "name": "ts-starter",
+  "version": "1.0.0",
+  "description": "Basic typescript setup for tdd",
+  "type": "module",
+  "packageManager": "pnpm@8.10.2",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "jest": "jest",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "format": "prettier --write .",
+    "nitpick": "pnpm format && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "@signed/prettier-config": "0.1.0",
+    "@tsconfig/node20": "20.1.2",
+    "@tsconfig/strictest": "2.0.2",
+    "@types/node": "20.8.10",
+    "prettier": "3.0.3",
+    "typescript": "5.2.2",
+    "vitest": "0.34.6"
+  },
+  "prettier": "@signed/prettier-config"
+}
